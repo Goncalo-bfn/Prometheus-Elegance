@@ -1,0 +1,28 @@
+# Prometheus Elegance - Configurações de Segurança Apache
+
+# 1. Desabilitar listagem de diretórios
+Options -Indexes
+
+# 2. Bloquear acesso a arquivos ocultos e de configuração (.git, .env, etc.)
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 3. Forçar UTF-8 padrão
+AddDefaultCharset UTF-8
+
+# 4. Cabeçalhos de Segurança HTTP
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+    Header set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+</IfModule>

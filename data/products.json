@@ -1,0 +1,50 @@
+﻿[
+    {
+        "id":  "prod-1",
+        "name":  "Camiseta Dry-Fit Performance",
+        "price":  89.9,
+        "description":  "Tecido tecnológico de alta respirabilidade para treinos intensos.",
+        "category":  "Camisetas esportivas",
+        "image":  "./assets/images/camisetas.jpg"
+    },
+    {
+        "id":  "prod-2",
+        "name":  "Shorts Runner Ultra Flex",
+        "price":  69.9,
+        "description":  "Cós anatômico e tecido leve de secagem rápida com bolso funcional.",
+        "category":  "Shorts e bermudas",
+        "image":  "./assets/images/shorts.jpg"
+    },
+    {
+        "id":  "prod-3",
+        "name":  "Conjunto Moletom Slim Elegance",
+        "price":  189.9,
+        "description":  "Design moderno e acabamento premium para conforto em qualquer estação.",
+        "category":  "Conjuntos e agasalhos",
+        "image":  "./assets/images/conjuntos.jpg"
+    },
+    {
+        "id":  "prod-4",
+        "name":  "Top \u0026 Legging Alta Compressão",
+        "price":  139.9,
+        "description":  "Sustentação firme e modelagem que valoriza a silhueta com zero transparência.",
+        "category":  "Fitness: tops, shorts e legging",
+        "image":  "./assets/images/fitness.jpg"
+    },
+    {
+        "id":  "prod-5",
+        "name":  "Tênis Air Stride Pro",
+        "price":  299.9,
+        "description":  "Amortecimento responsivo e design sofisticado para corrida e casual.",
+        "category":  "Tênis",
+        "image":  "./assets/images/tenis.jpg"
+    },
+    {
+        "id":  "prod-6",
+        "name":  "Boné Snapback Prometheus Classic",
+        "price":  59.9,
+        "description":  "Bordado de alta definição em relevo e fecho ajustável.",
+        "category":  "Bonés, garrafas e acessórios",
+        "image":  "./assets/images/bones.jpg"
+    }
+]

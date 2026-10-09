@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <title>Prometheus Elegance — Painel de Produtos</title>
+  <link rel="icon" href="../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../css/fonts.css">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+  <!-- Cabeçalho Administrativo -->
+  <header class="admin-header">
+    <div class="header-container">
+      <a href="../index.html" class="brand-link" title="Voltar ao início">
+        <img src="../assets/images/logo.png" alt="Logotipo Prometheus Elegance" class="brand-logo">
+        <div class="brand-title">
+          PROMETHEUS
+          <small>Painel de Produtos</small>
+        </div>
+      </a>
+      <nav class="header-nav">
+        <a href="../index.html" class="btn-secondary" target="_blank" rel="noopener noreferrer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          Visualizar Loja
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="admin-container">
+    <!-- Aviso Explicito de Segurança e Ambiente de Desenvolvimento -->
+    <aside class="security-banner" role="region" aria-label="Aviso de Segurança">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+      <div>
+        <h3>Ambiente Local de Desenvolvimento (Sem Autenticação de Produção)</h3>
+        <p>Este painel foi desenvolvido para gerenciar e testar o catálogo de produtos localmente. Os dados salvos são persistidos no arquivo local <code>data/products.json</code> e na pasta <code>assets/uploads/</code> deste computador. <strong>Não publique esta página diretamente na internet</strong> sem antes implementar uma camada de autenticação e proteção no servidor (como controle de sessão, senhas protegidas e autorização).</p>
+      </div>
+    </aside>
+
+    <!-- Métricas do Catálogo -->
+    <section class="metrics-grid" aria-label="Resumo do Catálogo">
+      <div class="metric-card">
+        <p>Total de Produtos</p>
+        <h4 id="stat-total-products">0</h4>
+      </div>
+      <div class="metric-card">
+        <p>Categorias com Itens</p>
+        <h4 id="stat-active-categories">0</h4>
+      </div>
+      <div class="metric-card">
+        <p>Preço Médio dos Produtos</p>
+        <h4 id="stat-average-price">R$ 0,00</h4>
+      </div>
+    </section>
+
+    <!-- Layout Duas Colunas: Formulário & Listagem -->
+    <div class="admin-layout">
+      <!-- Coluna Formulário -->
+      <section class="card form-column" aria-labelledby="form-heading">
+        <h2 id="form-heading" class="card-title">Cadastrar Novo Produto</h2>
+
+        <form id="product-form" novalidate>
+          <input type="hidden" id="prod-id" value="">
+
+          <div class="form-group">
+            <label for="prod-name">Nome do Produto <span class="required" aria-hidden="true">*</span></label>
+            <input type="text" id="prod-name" class="form-control" placeholder="Ex: Camiseta Dry-Fit Black" required maxlength="100">
+          </div>
+
+          <div class="form-group">
+            <label for="prod-category">Categoria <span class="required" aria-hidden="true">*</span></label>
+            <select id="prod-category" class="form-control" required>
+              <option value="">Selecione uma categoria...</option>
+              <option value="Camisetas esportivas">Camisetas esportivas</option>
+              <option value="Shorts e bermudas">Shorts e bermudas</option>
+              <option value="Conjuntos e agasalhos">Conjuntos e agasalhos</option>
+              <option value="Fitness: tops, shorts e legging">Fitness: tops, shorts e legging</option>
+              <option value="Tênis">Tênis</option>
+              <option value="Bonés, garrafas e acessórios">Bonés, garrafas e acessórios</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="prod-price">Preço em Reais (R$) <span class="required" aria-hidden="true">*</span></label>
+            <input type="number" id="prod-price" class="form-control" placeholder="Ex: 89.90" step="0.01" min="0.01" max="99999" required>
+          </div>
+
+          <div class="form-group">
+            <label for="prod-desc">Descrição do Produto</label>
+            <textarea id="prod-desc" class="form-control" rows="3" placeholder="Detalhes de tecido, caimento, respirabilidade ou tamanho..." maxlength="300"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Foto do Produto</label>
+            <div class="photo-uploader" id="photo-dropzone">
+              <label for="prod-file" class="photo-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                Selecionar Imagem do Computador
+              </label>
+              <input type="file" id="prod-file" class="photo-input-file" accept="image/jpeg,image/png,image/webp">
+              <p class="photo-help">JPG, PNG ou WebP (máximo 4MB)</p>
+            </div>
+
+            <!-- Preview da Foto Selecionada -->
+            <div class="photo-preview-container" id="photo-preview-box">
+              <img src="" alt="Prévia da foto" class="photo-preview-img" id="photo-preview-img">
+              <div class="photo-preview-info">
+                <div class="photo-preview-name" id="photo-preview-label">arquivo.jpg</div>
+                <button type="button" class="photo-remove-btn" id="photo-remove-btn">Remover foto</button>
+              </div>
+            </div>
+            <input type="hidden" id="prod-image-path" value="">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" id="btn-submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              Salvar Produto
+            </button>
+            <button type="button" class="btn-cancel" id="btn-cancel-edit">Cancelar</button>
+          </div>
+
+          <div id="status-toast" class="status-toast" role="alert" aria-live="polite"></div>
+        </form>
+      </section>
+
+      <!-- Coluna Lista de Produtos Cadastrados -->
+      <section class="card list-column" aria-labelledby="list-heading">
+        <h2 id="list-heading" class="card-title">Produtos Cadastrados</h2>
+
+        <div class="list-toolbar">
+          <div class="search-box">
+            <input type="text" id="search-input" class="form-control" placeholder="Buscar por nome ou descrição...">
+          </div>
+          <div class="category-filter">
+            <select id="filter-category" class="form-control">
+              <option value="">Todas as categorias</option>
+              <option value="Camisetas esportivas">Camisetas esportivas</option>
+              <option value="Shorts e bermudas">Shorts e bermudas</option>
+              <option value="Conjuntos e agasalhos">Conjuntos e agasalhos</option>
+              <option value="Fitness: tops, shorts e legging">Fitness: tops, shorts e legging</option>
+              <option value="Tênis">Tênis</option>
+              <option value="Bonés, garrafas e acessórios">Bonés, garrafas e acessórios</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="product-list" class="product-items-list" aria-live="polite">
+          <!-- Itens renderizados dinamicamente via admin.js com textContent -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Diálogo Acessível de Confirmação de Exclusão -->
+  <dialog id="delete-dialog" class="delete-dialog">
+    <h3>Confirmar Exclusão</h3>
+    <p>Tem certeza de que deseja excluir o produto <strong id="delete-dialog-item-name"></strong>?</p>
+    <p>Esta operação removerá o produto permanentemente do arquivo local do catálogo.</p>
+    <div class="delete-actions">
+      <button type="button" class="btn-secondary" id="btn-cancel-delete">Cancelar</button>
+      <button type="button" class="btn-danger" id="btn-confirm-delete">Excluir Produto</button>
+    </div>
+  </dialog>
+
+  <script src="./admin.js" defer></script>
+</body>
+</html>
