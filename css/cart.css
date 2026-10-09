@@ -52,14 +52,17 @@
 }
 
 .category-products-panel {
+  box-sizing: border-box;
+  grid-column: 1 / -1;
   border-top: 1px solid var(--border);
-  margin-top: 14px;
-  padding-top: 14px;
+  min-width: 0;
+  padding: 18px;
+  width: 100%;
 }
 
 .category-products-panel h4 {
   font-size: 15px;
-  margin-bottom: 10px;
+  margin: 0 0 14px;
 }
 
 .category-products-empty {
@@ -76,7 +79,8 @@
 
 .category-products-list {
   display: grid;
-  gap: 12px;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
 }
 
 .category-product {

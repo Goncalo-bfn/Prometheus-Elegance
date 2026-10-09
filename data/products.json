@@ -46,5 +46,37 @@
         "description":  "Bordado de alta definição em relevo e fecho ajustável.",
         "category":  "Bonés, garrafas e acessórios",
         "image":  "./assets/images/bones.jpg"
+    },
+    {
+        "id":  "prod-7",
+        "name":  "Camiseta esportiva preta",
+        "price":  50,
+        "description":  "Camiseta esportiva preta de tecido leve e confortável.",
+        "category":  "Camisetas esportivas",
+        "image":  "./assets/images/camisa.jpeg"
+    },
+    {
+        "id":  "prod-8",
+        "name":  "Bermuda casual",
+        "price":  50,
+        "description":  "Bermuda casual versátil para o dia a dia.",
+        "category":  "Shorts e bermudas",
+        "image":  "./assets/images/bermuda.jpeg"
+    },
+    {
+        "id":  "prod-9",
+        "name":  "Tênis esportivo preto",
+        "price":  50,
+        "description":  "Tênis esportivo preto com detalhes brancos.",
+        "category":  "Tênis",
+        "image":  "./assets/images/tenis-novo.jpeg"
+    },
+    {
+        "id":  "prod-10",
+        "name":  "Garrafa térmica azul",
+        "price":  50,
+        "description":  "Garrafa térmica azul prática para acompanhar sua rotina.",
+        "category":  "Bonés, garrafas e acessórios",
+        "image":  "./assets/images/garrafa.jpeg"
     }
 ]

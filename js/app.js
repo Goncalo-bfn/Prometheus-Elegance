@@ -28,6 +28,7 @@ if (toggle instanceof HTMLButtonElement && menu instanceof HTMLElement) {
 const WHATSAPP_NUMBER = '559889184633'; // Código do país + DDD + número, somente dígitos.
 
 const categoryCards = [...document.querySelectorAll('.category-card')];
+const categoryGrid = categoryCards[0]?.parentElement;
 // Cadastre produtos reais nos arrays usando { id, name, price, image }; price é informado em reais.
 const categoryProducts = {
   'Camisetas esportivas': [],
@@ -86,6 +87,7 @@ const renderProduct = (product, category) => {
 
   const name = document.createElement('h4');
   name.textContent = product.name;
+  productCard.append(name);
 
   if (product.description) {
     const desc = document.createElement('p');
@@ -127,7 +129,7 @@ const renderProduct = (product, category) => {
     cartAnnouncement.textContent = `${product.name} adicionado ao carrinho.`;
   });
 
-  productCard.append(name, price, addButton);
+  productCard.append(price, addButton);
   return productCard;
 };
 
@@ -153,13 +155,56 @@ categories.forEach((category) => {
   panel.className = 'category-products-panel';
   panel.hidden = true;
 
-  categoryInfo.append(panel);
+  if (!(categoryGrid instanceof HTMLElement)) {
+    console.error('Não foi possível posicionar os produtos na grade de categorias.');
+    return;
+  }
+
+  categoryGrid.append(panel);
   toggleButton.addEventListener('click', () => {
     const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
-    toggleButton.setAttribute('aria-expanded', String(!isExpanded));
-    toggleButton.textContent = isExpanded ? 'Ver produtos' : 'Ocultar produtos';
-    panel.hidden = isExpanded;
+
+    categories.forEach((otherCategory) => {
+      const otherButton = otherCategory.card.querySelector('.category-toggle');
+      const otherPanel = document.getElementById(`${otherCategory.id}-products`);
+      const expanded = !isExpanded && otherCategory.id === category.id;
+
+      if (otherButton instanceof HTMLButtonElement && otherPanel instanceof HTMLElement) {
+        otherButton.setAttribute('aria-expanded', String(expanded));
+        otherButton.textContent = expanded ? 'Ocultar produtos' : 'Ver produtos';
+        otherPanel.hidden = !expanded;
+      }
+    });
+
+    if (!isExpanded) {
+      placeCategoryPanel(category, panel);
+    }
   });
+});
+
+const placeCategoryPanel = (category, panel) => {
+  const rowTop = category.card.getBoundingClientRect().top;
+  const cardsInRow = categories.filter(
+    (entry) => Math.abs(entry.card.getBoundingClientRect().top - rowTop) < 1,
+  );
+  const lastCardInRow = cardsInRow[cardsInRow.length - 1]?.card;
+
+  if (lastCardInRow && categoryGrid instanceof HTMLElement) {
+    categoryGrid.insertBefore(panel, lastCardInRow.nextElementSibling);
+  }
+};
+
+window.addEventListener('resize', () => {
+  const openCategory = categories.find(
+    (category) => category.card.querySelector('.category-toggle')?.getAttribute('aria-expanded') === 'true',
+  );
+
+  if (openCategory) {
+    const panel = document.getElementById(`${openCategory.id}-products`);
+    if (panel instanceof HTMLElement) {
+      placeCategoryPanel(openCategory, panel);
+    }
+  }
 });
 
 const updateCategoryPanels = () => {
@@ -483,4 +528,3 @@ if (copyWhatsappBtn instanceof HTMLButtonElement && copyFeedback instanceof HTML
 
 renderCart();
 loadCatalogProducts();
-
